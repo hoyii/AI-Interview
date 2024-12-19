@@ -1,0 +1,43 @@
+{
+  "name": "vue3-chat",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.22",
+    "@heroicons/vue": "^2.1.5",
+    "@iconoir/vue": "^7.8.0",
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.0.0",
+    "axios": "^1.7.2",
+    "element-plus": "^2.7.8",
+    "highlight.js": "^11.10.0",
+    "less-loader": "^12.2.0",
+    "markdown-it": "^14.1.0",
+    "pinia": "^2.2.0",
+    "prettier": "^3.3.3",
+    "vue": "^3.4.31"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.8.0",
+    "@rollup/plugin-alias": "^5.1.0",
+    "@vitejs/plugin-vue": "^5.1.1",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.0.0",
+    "eslint-plugin-vue": "^9.27.0",
+    "globals": "^15.8.0",
+    "less": "^4.2.0",
+    "postcss": "^8.4.40",
+    "sass": "^1.77.8",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.4",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vue-tsc": "^2.0.24"
+  }
+}
