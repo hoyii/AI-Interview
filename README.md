@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # AI-Interview
-这是AI虚拟面试官的代码仓库
-=======
-# vue3-chat
 
 This is a GPT-like chat interface built using Vite, Vue 3, ElementPlus, and Tailwind CSS, supporting custom API URLs and API Keys.
 
@@ -55,4 +51,3 @@ Follow these steps to install and run the project.
 After starting the development server, open your browser and visit `http://localhost:5173`, where you will see a GPT-like chat interface. You can input and simulate conversations in this interface. Before doing so, set your API URL and API Key in the top right corner.
 
 ![image](https://github.com/hoyii/vue3-chat/blob/main/images/config.png)
->>>>>>> f52496c (Initial commit for project)
