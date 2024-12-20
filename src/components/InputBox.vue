@@ -8,7 +8,7 @@
       type="textarea"
       v-model="input"
       :autosize="{ minRows: 1, maxRows: 8 }"
-      placeholder="请输入你的问题"
+      placeholder="请输入你的回答"
       resize="none"
       @keydown.enter.prevent="handleButtonClick"
     ></el-input>
@@ -76,9 +76,13 @@ import { ref, nextTick } from "vue";
 
 import { useMessageListStore } from "@/stores/messageList";
 
+import { useAnswertore } from "@/stores/answer";
+
 import FileUploader from "./DocumentUploader.vue";
 
 const input = ref("");
+
+const answerStore = useAnswertore();
 
 // 在这里处理按钮点击事件 向gpt发送问题
 const handleButtonClick = (e: KeyboardEvent) => {
@@ -97,9 +101,26 @@ const handleButtonClick = (e: KeyboardEvent) => {
   const question = input.value;
   input.value = "";
   const messageList = useMessageListStore();
-  messageList.addUserMessage({
-    role: "user",
-    content: question,
-  });
+
+  const prompt_question = `背景：假设你是一名资深专业前端工程师，现在你手上有正确答案和我的回答。
+  正确答案：${answerStore.getRightAnswer}。
+
+  我的回答：${question}。
+  要求：
+  1. 你需要根据正确答案的内容，对比指出我的回答的错误之处。
+  2. 对于我的回答的错误之处，你需要分点陈述。
+  3. 如果我的回答基本正确，可以简单回复“回答正确”。
+  现在，按照以上要求对我的回答进行指正：`;
+  messageList.addUserMessage_copy(
+    {
+      role: "user",
+      content: question,
+    },
+    prompt_question
+  );
+  // messageList.addUserMessage({
+  //   role: "user",
+  //   content: question,
+  // });
 };
 </script>

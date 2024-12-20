@@ -14,6 +14,23 @@ export const useMessageListStore = defineStore("messageList", () => {
     messageList: <Array<Message>>[],
   });
 
+  const addInterviewMessage = (content: string) => {
+    state.messageList.push({
+      id: state.messageList.length,
+      content: content,
+      role: "gpt",
+    });
+  };
+
+  function addUserMessage_copy(message: Message, prompt_question: string) {
+    // 用数组长度作为新消息的id
+    const newId = state.messageList.length;
+    message.id = newId;
+    state.messageList.push(message);
+    // 发送api请求gpt回复
+    addGptMessage(prompt_question);
+  }
+
   function addUserMessage(message: Message) {
     // 用数组长度作为新消息的id
     const newId = state.messageList.length;
@@ -32,9 +49,11 @@ export const useMessageListStore = defineStore("messageList", () => {
           content: content,
           role: "gpt",
         });
+        console.log(1);
       } else {
         // 流式更新一条消息
         state.messageList[id].content += content;
+        console.log(2);
       }
     }
     // 用数组长度作为新消息的id
@@ -67,5 +86,5 @@ export const useMessageListStore = defineStore("messageList", () => {
       });
   }
 
-  return { state, addUserMessage };
+  return { state, addUserMessage, addUserMessage_copy, addInterviewMessage };
 });

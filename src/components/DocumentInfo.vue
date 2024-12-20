@@ -3,14 +3,9 @@
     v-loading="props.isLoading"
     class="container relative flex flex-none items-center p-2 rounded-lg shadow-lg bg-white h-20 w-1/3 min-w-36"
   >
-    <img src="/pdf.svg" alt="PDF icon" class="w-10 h-10 mr-2" />
+    <img src="/book.svg" alt="PDF icon" class="w-8 mr-2" />
     <div class="flex flex-col mr-auto">
-      <span class="span-1 font-bold">{{
-        formatName(props.fileName as string)
-      }}</span>
-      <span class="span-2 text-sm text-black"
-        >PDF, {{ formatSize(props.fileSize as number) }}</span
-      >
+      <span class="span-1 font-bold">{{ props.fileName }}</span>
     </div>
     <button
       @click="handleFileDelete(props.fileIndex as number)"
@@ -32,13 +27,11 @@
 
 <script setup lang="ts">
 import { IconoirProvider, XmarkCircle } from "@iconoir/vue";
-import { formatName, formatSize } from "@/utils/format";
 import { useDocumentListStore } from "@/stores/documentList";
 const props = defineProps({
   isLoading: Boolean,
   fileIndex: Number,
   fileName: String,
-  fileSize: Number,
 });
 
 // 删除文档

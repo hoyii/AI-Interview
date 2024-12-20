@@ -52,10 +52,6 @@ export const getAnswerStream = async (
         model: model,
         messages: [
           {
-            role: "system",
-            content: `You are a helpful assistant that accurately answers. Try to use your own words when possible.Be accurate, helpful, concise, and clear.`,
-          },
-          {
             role: "user",
             content: question,
           },
@@ -99,3 +95,30 @@ export const getAnswerStream = async (
     );
   }
 };
+
+// 请求的函数
+export async function getGPTResponse(prompt: string): Promise<string> {
+  try {
+    // 发送 POST 请求到 OpenAI API
+    const response = await axios.post(
+      apiUrl + "/chat/completions",
+      {
+        model: "gpt-4o-mini", // 或 'gpt-4'，根据你的模型选择
+        messages: [{ role: "user", content: prompt }],
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+      }
+    );
+
+    // 获取返回的 GPT 答复
+    const answer = response.data.choices[0].message.content;
+    return answer;
+  } catch (error) {
+    console.error("Error fetching GPT response:", error);
+    throw new Error("Failed to get GPT response");
+  }
+}

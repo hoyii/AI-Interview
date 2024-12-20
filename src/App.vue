@@ -9,5 +9,5 @@
 
 <script setup lang="ts">
 import Content from "./views/content/ContentView.vue";
-import SideBar from "./views/SideBar.vue";
+// import SideBar from "./views/SideBar.vue";
 </script>

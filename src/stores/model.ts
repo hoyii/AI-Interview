@@ -1,5 +1,9 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
+import { apiKey, apiUrl } from "@/config/config";
+
+const key = apiKey;
+const url = apiUrl;
 
 export const models: { [key: string]: string } = {
   "GPT-4o mini": "gpt-4o-mini",
@@ -10,8 +14,8 @@ export const models: { [key: string]: string } = {
 export const useModelStore = defineStore("model", () => {
   // 初始化从 localStorage 获取值
   const model = ref(localStorage.getItem("model") || "");
-  const apiUrl = ref(localStorage.getItem("apiUrl") || "");
-  const apiKey = ref(localStorage.getItem("apiKey") || "");
+  const apiUrl = ref(url);
+  const apiKey = ref(key);
 
   // 计算属性
   const getModel = computed(() => model.value);
