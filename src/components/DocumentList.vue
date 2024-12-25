@@ -28,6 +28,8 @@ import { getGPTResponse } from "@/api/gpt";
 
 import { useAnswertore } from "@/stores/answer";
 
+import { ElNotification } from "element-plus";
+
 const store = useMessageListStore();
 
 const answerStore = useAnswertore();
@@ -104,13 +106,28 @@ const documentClickEvent = (name: string) => {
     问题：${question}。
     请参照上述的格式，不需要任何冗余信息，输出你的答案：`;
     const prompt_question = prompt + question;
+    store.addInterviewMessage(question);
+    answerStore.setRightAnswer("");
+    ElNotification.info({
+      message: "正在获取正确答案，请稍等",
+      duration: 2000,
+    });
     getGPTResponse(prompt_question)
       .then((response) => {
         console.log("GPT Answer:", response);
         // 获取到gpt的回复
         // 存储gpt的回复
         answerStore.setRightAnswer(response);
-        store.addInterviewMessage(question);
+        ElNotification.success({
+          message: "获取正确答案成功",
+          duration: 2000,
+        });
+        setTimeout(() => {
+          ElNotification.info({
+            message: "请输入你的回答",
+            duration: 2000,
+          });
+        }, 500);
       })
       .catch((error) => {
         console.error(error);

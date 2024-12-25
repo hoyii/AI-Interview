@@ -78,6 +78,8 @@ import { useMessageListStore } from "@/stores/messageList";
 
 import { useAnswertore } from "@/stores/answer";
 
+import { ElNotification } from "element-plus";
+
 import FileUploader from "./DocumentUploader.vue";
 
 const input = ref("");
@@ -86,6 +88,11 @@ const answerStore = useAnswertore();
 
 // 在这里处理按钮点击事件 向gpt发送问题
 const handleButtonClick = (e: KeyboardEvent) => {
+  // 显示进度条
+  ElNotification.info({
+    message: "正在比对答案，请稍等",
+    duration: 2000,
+  });
   if (e.key === "Enter" && e.shiftKey) {
     input.value += "\n";
     const textarea = document.getElementById("input_1");
@@ -102,10 +109,14 @@ const handleButtonClick = (e: KeyboardEvent) => {
   input.value = "";
   const messageList = useMessageListStore();
 
-  const prompt_question = `背景：假设你是一名资深专业前端工程师，现在你手上有正确答案和我的回答。
+  const prompt_question = `背景：假设你是一名资深专业前端面试官，你的语气温柔且幽默，现在你手上有正确答案和我的回答。
+  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   正确答案：${answerStore.getRightAnswer}。
+  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   我的回答：${question}。
+  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   要求：
   1. 你需要根据正确答案的内容，对比指出我的回答的错误之处。
   2. 对于我的回答的错误之处，你需要分点陈述。

@@ -86,5 +86,11 @@ export const useMessageListStore = defineStore("messageList", () => {
       });
   }
 
-  return { state, addUserMessage, addUserMessage_copy, addInterviewMessage };
+  return {
+    state,
+    addUserMessage,
+    addUserMessage_copy,
+    addInterviewMessage,
+    addGptMessage,
+  };
 });
