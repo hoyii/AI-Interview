@@ -6,25 +6,31 @@
     <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <el-card
         v-for="item in data"
-        :key="item.id"
+        :key="item.knowledgeId"
         :class="[
           `flex
         container
         justify-start
         p-5
+        h-48
         hover:shadow-lg
         rounded-2xl`,
-          item.id === 0
+          item.knowledgeId === -1
             ? 'flex-col justify-center items-center hover:bg-gray-100 cursor-pointer'
             : '',
         ]"
       >
-        <p class="text-2xl font-semibold mb-5">{{ item.title }}</p>
-        <p v-show="item.id !== 0" class="text-sm text-gray-500 mb-5">
-          {{ item.description }}
+        <p class="text-2xl font-semibold mb-5">{{ item.knowledgeName }}</p>
+        <p v-show="item.knowledgeId !== -1" class="text-sm text-gray-500 mb-5">
+          {{ item.knowledgeDesc }}
         </p>
-        <div v-show="item.id != 0">
-          <el-button type="default" class="text-sm rounded-lg">打开</el-button>
+        <div v-show="item.knowledgeId !== -1">
+          <el-button
+            type="default"
+            class="text-sm rounded-lg"
+            @click="openClickEvent(item.knowledgeId)"
+            >打开</el-button
+          >
           <el-button type="default" class="text-sm rounded-lg">编辑</el-button>
           <el-button type="danger" class="text-sm rounded-lg">删除</el-button>
         </div>
@@ -34,37 +40,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import router from "@/router";
+import { onMounted, ref } from "vue";
+import { getAllKnowledge } from "@/api/knowledge";
+import { useRoute } from "vue-router";
+
 const title = "题库";
 
-// 模拟数据
-const data = ref([
+const data = ref<any[]>([
   {
-    id: 0,
-    title: "创建题库",
-    description: "创建题库",
-  },
-  {
-    id: 1,
-    title: "前端",
-    description: "前端题库",
-  },
-  {
-    id: 2,
-    title: "后端",
-    description: "后端题库",
-  },
-  {
-    id: 3,
-    title: "数据库",
-    description: "数据库题库",
-  },
-  {
-    id: 4,
-    title: "计算机基础",
-    description: "计算机基础题库",
+    knowledgeId: -1,
+    knowledgeName: "新建知识",
+    knowledgeDesc: "新建知识",
   },
 ]);
+
+const requestParams = {
+  username: useRoute().params.username as string,
+};
+
+onMounted(() => {
+  console.log(requestParams.username);
+  // 获取用户全部知识
+  getAllKnowledge(requestParams)
+    .then((res) => {
+      data.value = data.value.concat(res.result.knowledgeList);
+      console.log(res.result.knowledgeList);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+const openClickEvent = (knowledgeId: string) => {
+  router.push(`/knowledge/${knowledgeId}`);
+};
 </script>
 
 <style scoped></style>
