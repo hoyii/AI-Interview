@@ -6,6 +6,7 @@ const key = apiKey;
 const url = apiUrl;
 
 export const models: { [key: string]: string } = {
+  讯飞星火大模型: "gpt-4o-mini",
   "GPT-4o mini": "gpt-4o-mini",
   "GPT-4o": "gpt-4o",
   "GPT-3.5 turbo": "gpt-3.5-turbo",

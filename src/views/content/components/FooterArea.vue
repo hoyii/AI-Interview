@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="flex flex-col items-center mt-4 mb-8">
-      <FileList></FileList> <InputBox></InputBox>
+      <TagList></TagList> <InputBox></InputBox>
     </div>
   </div>
 </template>
@@ -10,6 +10,6 @@
 <style lang="scss" scoped></style>
 
 <script setup lang="ts">
-import FileList from "@/components/DocumentList.vue";
+import TagList from "@/components/TagList.vue";
 import InputBox from "@/components/InputBox.vue";
 </script>

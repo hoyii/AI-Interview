@@ -1,25 +1,23 @@
-<!-- 这个组件用于展示文件列表 -->
+<!-- 这个组件用于展示标签列表 -->
 <template>
-  <div
-    v-if="knowledgeList.length !== 0"
-    class="bg-[#f4f4f4] rounded-2xl w-1/2 p-2"
-  >
+  <div v-if="tagList.length !== 0" class="bg-[#f4f4f4] rounded-2xl w-1/2 p-2">
     <div class="flex overflow-x-auto p-2 space-x-4">
-      <DocumentInfo
-        v-for="(knowledge, index) in knowledgeList"
-        :key="knowledge.id"
+      <Tag
+        v-for="(tag, index) in tagList"
+        :key="index"
         :is-loading="false"
         :file-index="index"
-        :file-name="knowledge.title"
+        :file-name="tag"
         :file-size="1"
+        :class="getTagBackground(index)"
         class="hover:bg-gray-100"
-      ></DocumentInfo>
+      ></Tag>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import DocumentInfo from "@/components/DocumentInfo.vue";
+import Tag from "@/components/Tag.vue";
 
 import { useMessageListStore } from "@/stores/messageList";
 
@@ -28,7 +26,7 @@ import { getGPTResponse } from "@/api/gpt";
 import { useAnswertore } from "@/stores/answer";
 
 import { ElNotification } from "element-plus";
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 import { useRoute } from "vue-router";
 
@@ -43,6 +41,7 @@ const requestParams = {
 onMounted(() => {
   getQuestionDetail(requestParams).then((response) => {
     const question = response.result.questionName;
+    tagList.value = response.result.questionTag;
     // 先发送题目给gpt，获取gpt关于题目的回答
     const prompt = `背景：假设你是一名资深专业${name}工程师，你需要回答下面的问题。
     要求：
@@ -58,6 +57,7 @@ onMounted(() => {
     问题：${question}。
     请参照上述的格式，不需要任何冗余信息，输出你的答案：`;
     const prompt_question = prompt + question;
+
     store.addInterviewMessage(question);
     answerStore.setRightAnswer("");
     ElNotification.info({
@@ -95,24 +95,14 @@ const store = useMessageListStore();
 
 const answerStore = useAnswertore();
 
-const knowledgeList = [
-  {
-    id: 1,
-    title: "前端",
-  },
-  {
-    id: 2,
-    title: "后端",
-  },
-  {
-    id: 3,
-    title: "数据库",
-  },
-  {
-    id: 4,
-    title: "运维",
-  },
-];
+const tagList = ref<string[]>([]);
+
+const tagColors = ["bg-[#fce4ec]", "bg-[#e3f2fd]", "bg-[#e8f5e9]"]; // 柔和的粉色、蓝色、绿色
+
+// 根据 index 返回对应的背景颜色
+const getTagBackground = (index: any) => {
+  return tagColors[index % tagColors.length];
+};
 </script>
 
 <style scoped></style>

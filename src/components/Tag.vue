@@ -1,11 +1,12 @@
 <template>
   <div
     v-loading="props.isLoading"
-    class="container relative flex flex-none items-center p-2 rounded-lg shadow-lg bg-white h-20 w-1/3 min-w-36"
+    class="container relative flex flex-none items-center p-2 rounded-3xl shadow-lg bg-white h-10 w-1/5"
   >
-    <img src="/book.svg" alt="PDF icon" class="w-8 mr-2" />
-    <div class="flex flex-col mr-auto">
-      <span class="span-1 font-bold">{{ props.fileName }}</span>
+    <div class="flex flex-col mr-auto w-full">
+      <p class="span-2 font-semibold mx-auto">
+        {{ props.fileName }}
+      </p>
     </div>
     <button
       @click="handleFileDelete(props.fileIndex as number)"
