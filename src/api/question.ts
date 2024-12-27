@@ -72,6 +72,7 @@ interface AddQuestionRequest {
   }>;
 }
 
+// 添加问题
 export const addQuestion = async (
   data: AddQuestionRequest
 ): Promise<AddQuestionResponse> => {
@@ -91,5 +92,45 @@ export const addQuestion = async (
     return response.data;
   } catch (error) {
     throw new Error("Add question failed");
+  }
+};
+
+interface QuestionDetailResponse {
+  status: string;
+  result: {
+    questionId: number;
+    questionName: string;
+    questionTag: string[];
+    questionUploadTime: number;
+    questionLastAskTime: number;
+    knowledgeId: number;
+  };
+}
+
+interface QuestionDetailRequest {
+  questionId: string;
+}
+
+// 根据questionId 获取问题详情
+export const getQuestionDetail = async (
+  data: QuestionDetailRequest
+): Promise<QuestionDetailResponse> => {
+  try {
+    const response = await apiClient.get<QuestionDetailResponse>(
+      "/question/get",
+      {
+        params: {
+          questionId: data.questionId,
+        },
+      }
+    );
+
+    if (response.data.status !== "success") {
+      throw new Error("Get question detail failed");
+    }
+
+    return response.data;
+  } catch (error) {
+    throw new Error("Get question detail failed");
   }
 };

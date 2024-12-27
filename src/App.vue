@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-screen overflow-hidden">
-    <router-view></router-view>
+    <router-view class="flex-grow"></router-view>
     <!-- <Index></Index> -->
     <!-- <Content class="flex-grow"></Content> -->
   </div>

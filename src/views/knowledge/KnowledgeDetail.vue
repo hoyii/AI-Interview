@@ -81,6 +81,7 @@ import { ElTable } from "element-plus";
 import { useRoute } from "vue-router";
 import { getAllQuestion, addQuestion } from "@/api/question";
 import moment from "moment";
+import router from "@/router";
 
 const knowledgeId = useRoute().params.knowledgeId as string;
 
@@ -119,6 +120,8 @@ const filterTableData = computed(() =>
   )
 );
 const handleEdit = (index: number, row: Question) => {
+  // 跳转到题目对话页面
+  router.push(`/question/${row.questionId}`);
   console.log(index, row);
 };
 const handleDelete = (index: number, row: Question) => {

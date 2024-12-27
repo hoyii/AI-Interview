@@ -13,7 +13,6 @@
         :file-name="knowledge.title"
         :file-size="1"
         class="hover:bg-gray-100"
-        @click="documentClickEvent(knowledge.title)"
       ></DocumentInfo>
     </div>
   </div>
@@ -29,68 +28,21 @@ import { getGPTResponse } from "@/api/gpt";
 import { useAnswertore } from "@/stores/answer";
 
 import { ElNotification } from "element-plus";
+import { onMounted, onUnmounted } from "vue";
 
-const store = useMessageListStore();
+import { useRoute } from "vue-router";
 
-const answerStore = useAnswertore();
+import { getQuestionDetail } from "@/api/question";
 
-const knowledgeList = [
-  {
-    id: 1,
-    title: "前端",
-  },
-  {
-    id: 2,
-    title: "后端",
-  },
-  {
-    id: 3,
-    title: "数据库",
-  },
-  {
-    id: 4,
-    title: "运维",
-  },
-];
+const questionId = useRoute().params.questionId as string;
 
-const questionList = [
-  { id: 1, question: "简述一下你对 HTML 语义化的理解？" },
-  { id: 2, question: "HTML5 为什么只需要写 <!DOCTYPE HTML>？" },
-  { id: 3, question: "行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？" },
-  { id: 4, question: "页面导入样式时，使用 link 和 @import 有什么区别？" },
-  {
-    id: 5,
-    question:
-      "如何创建块级格式化上下文(block formatting context)，BFC 有什么用？",
-  },
-  { id: 6, question: "CSS 如何实现垂直居中？" },
-  {
-    id: 7,
-    question: "CSS 选择器有哪些？哪些属性可以继承？优先级算法如何计算？",
-  },
-  { id: 8, question: "CSS3 新增伪类有那些？" },
-  { id: 9, question: "如何居中一个浮动元素？" },
-  { id: 10, question: "display 有哪些值？说明他们的作用。" },
-  { id: 11, question: "position 的值 relative 和 absolute 定位原点是？" },
-  { id: 12, question: "CSS3 有哪些新增的特性？" },
-  { id: 13, question: "请解释一下 CSS3 的 flex 弹性盒模型。" },
-  { id: 14, question: "请解释一下 CSS3 的 grid 网格布局。" },
-  { id: 15, question: "请解释一下 CSS3 的动画。" },
-  { id: 16, question: "请解释一下 CSS3 的过渡。" },
-  { id: 17, question: "请解释一下 CSS3 的变形。" },
-  { id: 18, question: "请解释一下 CSS3 的滤镜。" },
-  { id: 19, question: "请解释一下 CSS3 的多列布局。" },
-  { id: 20, question: "请解释一下 CSS3 的媒体查询。" },
-  { id: 21, question: "请解释一下 CSS3 的选择器。" },
-];
+const requestParams = {
+  questionId: questionId,
+};
 
-const documentClickEvent = (name: string) => {
-  // 显示每个知识的题目列表
-  console.log(name);
-  if (name == "前端") {
-    // 随机出题
-    const num = Math.floor(Math.random() * questionList.length);
-    const question = questionList[num].question;
+onMounted(() => {
+  getQuestionDetail(requestParams).then((response) => {
+    const question = response.result.questionName;
     // 先发送题目给gpt，获取gpt关于题目的回答
     const prompt = `背景：假设你是一名资深专业${name}工程师，你需要回答下面的问题。
     要求：
@@ -132,8 +84,35 @@ const documentClickEvent = (name: string) => {
       .catch((error) => {
         console.error(error);
       });
-  }
-};
+  });
+});
+
+onUnmounted(() => {
+  store.state.messageList = [];
+});
+
+const store = useMessageListStore();
+
+const answerStore = useAnswertore();
+
+const knowledgeList = [
+  {
+    id: 1,
+    title: "前端",
+  },
+  {
+    id: 2,
+    title: "后端",
+  },
+  {
+    id: 3,
+    title: "数据库",
+  },
+  {
+    id: 4,
+    title: "运维",
+  },
+];
 </script>
 
 <style scoped></style>

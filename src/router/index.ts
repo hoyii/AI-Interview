@@ -2,8 +2,14 @@ import { createRouter, createWebHistory } from "vue-router";
 import KnowledgePage from "@/views/knowledge/IndexView.vue";
 import KnowledgeDetail from "@/views/knowledge/KnowledgeDetail.vue";
 import LoginPage from "@/views/login/LoginView.vue";
+import ContentView from "@/views/content/ContentView.vue";
 
 const routes = [
+  {
+    path: "/login",
+    name: "LoginPage",
+    component: LoginPage,
+  },
   {
     path: "/:username",
     name: "KnowledgePage",
@@ -15,9 +21,9 @@ const routes = [
     component: KnowledgeDetail,
   },
   {
-    path: "/login",
-    name: "LoginPage",
-    component: LoginPage,
+    path: "/question/:questionId",
+    name: "QuestionDetail",
+    component: ContentView,
   },
 ];
 
