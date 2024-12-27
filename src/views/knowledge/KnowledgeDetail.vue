@@ -50,7 +50,7 @@
         <el-table-column label="访问时间" prop="askTime">
           <template #default="{ row }">
             <p class="font-bold">
-              {{ formatTimestamp(row.questionLastAskTime) }}
+              {{ formatterTime(row.questionLastAskTime) }}
             </p>
           </template>
         </el-table-column>
@@ -80,6 +80,7 @@ import { computed, onMounted, ref } from "vue";
 import { ElTable } from "element-plus";
 import { useRoute } from "vue-router";
 import { getAllQuestion, addQuestion } from "@/api/question";
+import moment from "moment";
 
 const knowledgeId = useRoute().params.knowledgeId as string;
 
@@ -183,6 +184,23 @@ function formatTimestamp(timestamp: number) {
   const seconds = String(date.getSeconds()).padStart(2, "0");
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
+
+const formatterTime = (timestamp: number) => {
+  // 确保时间戳为毫秒级别
+  let createTime = timestamp * 1000;
+  const now = moment();
+  const inputTime = moment(createTime);
+  const diffInMinutes = now.diff(inputTime, "minutes");
+  const diffInHours = now.diff(inputTime, "hours");
+
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} 分钟前`;
+  } else if (diffInHours < 24) {
+    return `${diffInHours} 小时前`;
+  } else {
+    return inputTime.format("YYYY-MM-DD");
+  }
+};
 </script>
 
 <style scoped></style>
