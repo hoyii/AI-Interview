@@ -1,6 +1,6 @@
 <!-- 这个组件用于展示标签列表 -->
 <template>
-  <div v-if="tagList.length !== 0" class="bg-[#f4f4f4] rounded-2xl w-1/2 p-2">
+  <div v-if="tagList.length !== 0" class="rounded-2xl w-1/2 p-2">
     <div class="flex overflow-x-auto p-2 space-x-4">
       <Tag
         v-for="(tag, index) in tagList"
@@ -10,7 +10,6 @@
         :file-name="tag"
         :file-size="1"
         :class="getTagBackground(index)"
-        class="hover:bg-gray-100"
       ></Tag>
     </div>
   </div>
@@ -97,7 +96,7 @@ const answerStore = useAnswertore();
 
 const tagList = ref<string[]>([]);
 
-const tagColors = ["bg-[#fce4ec]", "bg-[#e3f2fd]", "bg-[#e8f5e9]"]; // 柔和的粉色、蓝色、绿色
+const tagColors = ["bg-pink-100", "bg-blue-100", "bg-green-100"]; // 柔和的粉色、蓝色、绿色
 
 // 根据 index 返回对应的背景颜色
 const getTagBackground = (index: any) => {
