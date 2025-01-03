@@ -1,53 +1,85 @@
-# AI-Interview
+## **结营笔记：AI面试官项目**
 
-This is a GPT-like chat interface built using Vite, Vue 3, ElementPlus, and Tailwind CSS, supporting custom API URLs and API Keys.
+### **项目背景**
 
-[中文文档](https://github.com/hoyii/vue3-chat/blob/main/documents/README_CN.md)
+随着人工智能技术的快速发展，AI在多个领域的应用越来越广泛，尤其是在招聘行业中，AI能够帮助优化面试过程，提升招聘效率，甚至降低人工面试中的偏差。基于此背景，我在Datawhale冬令营的结营项目中选择了构建一个“AI面试官”的系统，旨在模拟传统面试过程，通过大语言模型相关技术，利用AI为求职者提供自动化的面试服务。
 
-![image](https://github.com/hoyii/vue3-chat/blob/main/images/test.gif)
+### **项目构思**
 
-## Table of Contents
+项目的核心目标是通过AI技术来模拟真实的面试流程，实现以下几个功能：
 
-- [Features](#features)
-- [Demo](#demo)
-- [Installation](#installation)
-- [Usage](#usage)
+1. **面试问题生成：** 根据用户上传题库，自动生成面试问题。
+2. **自然语言处理：** 借助大语言模型（LLM）对求职者的回答进行理解，分析其回答的质量。
+3. **实时反馈与评分：** 根据求职者的回答，AI能够提供实时的反馈和评分，帮助求职者改进回答。
+4. **多轮对话：** AI能够进行多轮对话，模拟更复杂的面试情景，不仅仅局限于简单的问答。
 
-## Features
+### **技术栈选择**
 
-- Built with Vite and Vue 3
-- Integrated with ElementPlus and Tailwind CSS
-- Supports custom API URLs and API Keys
-- Supports streaming responses
-- Supports multiple formats like markdown and HTML for parsing and display
+- **前端：Vue3**
 
-## Demo
+  - 使用Vue3来搭建前端界面。Vue3提供了更高效的响应式系统和组件化开发的方式，适合快速开发和构建复杂的用户界面。
 
-![image](https://github.com/hoyii/vue3-chat/blob/main/images/test.gif)
+  **知识库页面：**
+  ![image](https://github.com/hoyii/AI-Interview/blob/main/images/1.png)
 
-## Installation
+  **题库页面：**
+  ![image](https://github.com/hoyii/AI-Interview/blob/main/images/2.png)
 
-Follow these steps to install and run the project.
+  **面试对话页面：**
+  ![image](https://github.com/hoyii/AI-Interview/blob/main/images/3.png)
 
-1. Clone this repository
-   ```bash
-   git clone https://github.com/hoyii/vue3-chat.git
-   ```
-2. Navigate to the project directory
-   ```bash
-   cd vue3-chat
-   ```
-3. Install dependencies
-   ```bash
-   npm install
-   ```
-4. Run the project
-   ```bash
-   npm run dev
-   ```
+- **后端：Python**
+  - 使用Python作为后端语言，主要得益于其丰富的AI和机器学习框架。Flask作为轻量级Web框架，方便快速开发和接口集成。
+- **AI技术：LLM（大语言模型）**
+  - 通过集成大语言模型讯飞星火大模型和讯飞MaaS微调模型进行自然语言处理，理解和生成面试问题。
+  - 使用LLM来分析候选人的回答，并给出相应的反馈和评分。通过训练AI模型，使其能够根据面试的不同类型和领域，输出符合要求的面试问题答案。
 
-## Usage
+### **项目实现**
 
-After starting the development server, open your browser and visit `http://localhost:5173`, where you will see a GPT-like chat interface. You can input and simulate conversations in this interface. Before doing so, set your API URL and API Key in the top right corner.
+#### **1. 系统架构设计**
 
-![image](https://github.com/hoyii/vue3-chat/blob/main/images/config.png)
+整个系统被划分为前端与后端两大部分，前端负责展示面试界面和接收用户输入，后端则负责处理用户输入、生成面试问题、与LLM交互并返回结果。
+
+- **前端（Vue3）**
+  - 设计了一个简洁直观的面试界面，用户可以在其中输入自己的回答，AI会实时反馈评分和改进意见。
+  - 前端界面中包括“开始面试”、“面试问题”、“提交回答”和“反馈结果”等模块。
+- **后端（Python + Flask）**
+  - 后端接收到前端传来的数据后，利用LLM生成问题并返回给前端显示。
+  - 通过API接口将前端与后端连接，确保面试过程的实时性。
+
+#### **2. 面试问题生成与评价**
+
+为了能够根据求职者的背景生成合适的面试问题，我将系统分为两个部分：
+
+- **问题生成：**
+  - 根据用户上传的题库来生成面试问题。
+- **答案评估：**
+  - 通过LLM对求职者的答案进行自然语言理解，分析其内容的准确性、表达的清晰度以及逻辑性。
+  - 根据AI评分模型对答案进行评分，同时给出反馈。
+
+#### **3. 多轮对话与实时反馈**
+
+为了提升面试的互动性和真实性，我实现了AI面试官的多轮对话功能：
+
+- **多轮对话：** 系统不仅仅会问一个问题，而是根据求职者的回答引导出后续的问题，模拟真实的面试过程。
+- **实时反馈：** 每当求职者回答问题时，AI会根据回答的质量给出实时反馈，帮助求职者提升答题技巧。
+
+#### **4. 持续优化与学习**
+
+为了使系统不断提高面试质量，我加入了持续优化功能：
+
+- **答题数据收集：** 每次面试完成后，系统会收集答题数据，包括用户的回答内容和评分，以便进行后续分析和优化。
+- **错题收集：** 系统会自动为用户回答评级，并将问题收录到错题本，方便用户复习和整理。
+
+### **项目挑战与解决方案**
+
+在项目实施过程中，我遇到了一些挑战，主要包括：
+
+1. **微调模型的拟合程度：** 初期，AI模型对于专业领域的问题回答并不总是精准。为了解决这个问题，我在训练过程中增加了更多的数据，并使用了规范化训练输出的方式使得模型能够在有限的数据集上快速适应不同职位的面试需求。
+2. **多轮对话的流畅性：** 多轮对话的设计比较复杂，涉及到前后问题的衔接与语境的保持。通过提示词设计和上下文拼接，我使得能够更好地维持对话的连贯性。
+
+### **总结与展望**
+
+通过这个项目的开发，我不仅加深了对Vue3、Python和LLM的理解，还提升了自己在实际项目开发中的问题解决能力。在实际应用中，这种“AI面试官”能够为求职者提供即时反馈，帮助他们在面试中表现得更好，也能为公司节省大量的面试时间。
+
+未来，我计划进一步优化该系统，引入更多的个性化特征，比如根据候选人的性格特征提供不同风格的面试问题，甚至模拟更加复杂的面试情境。
